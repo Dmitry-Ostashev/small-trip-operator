@@ -14,32 +14,26 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdminService
-{
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
+namespace AdminService {
+    public class Startup {
+        public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-
+        public void ConfigureServices(IServiceCollection services) {
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
+
+            services.AddScoped<IScheduleRepo, ScheduleRepo>();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
+            services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AdminService", Version = "v1" });
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AdminService v1"));
@@ -51,8 +45,7 @@ namespace AdminService
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
         }
