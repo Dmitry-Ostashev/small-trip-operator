@@ -27,6 +27,7 @@ namespace AdminService {
 
             services.AddScoped<IScheduleRepo, ScheduleRepo>();
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AdminService", Version = "v1" });
             });
@@ -48,6 +49,8 @@ namespace AdminService {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
+
+            PrepDb.PreparePopulation(app);
         }
     }
 }
