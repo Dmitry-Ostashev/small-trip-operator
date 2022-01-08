@@ -11,7 +11,7 @@ namespace AdminService.Controllers {
         private readonly IScheduleRepo _repository;
         private readonly IMapper _mapper;
 
-        public SchedulesController (IScheduleRepo repository, IMapper mapper) {
+        public SchedulesController(IScheduleRepo repository, IMapper mapper) {
             _repository = repository;
             _mapper = mapper;
         }
@@ -21,6 +21,16 @@ namespace AdminService.Controllers {
             var schedulesItem = _repository.GetAllSchedules();
 
             return Ok(_mapper.Map<IEnumerable<ScheduleReadDto>>(schedulesItem));
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<ScheduleReadDto> GetScheduleById(int id) {
+            var scheduleItem = _repository.GetScheduleById(id);
+
+            if (scheduleItem != null)
+                return Ok(_mapper.Map<ScheduleReadDto>(scheduleItem));
+
+            return NotFound();
         }
     }
 }
