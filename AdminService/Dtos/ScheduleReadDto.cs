@@ -11,6 +11,6 @@ namespace AdminService.Dtos {
 
         public string Address { get; set; }
 
-        public List<TripAppointment> Appointments { get; set; }
+        public List<TripAppointmentReadDto> Appointments { get; set; }
     }
 }
