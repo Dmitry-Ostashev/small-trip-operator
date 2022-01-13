@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AdminService.Models;
 using Microsoft.AspNetCore.Builder;
@@ -10,8 +11,13 @@ namespace AdminService.Data {
             if (!context.TripDescriptions.Any()) {
                 Console.WriteLine("Seeding data...");
 
-                context.TripDescriptions.Add(new TripDescription() { Title = "Moscow Journey" });
-                context.Schedules.Add(new Schedule() { Title = "Tula", City = "Tula" });
+                var tripDescription = new TripDescription() { Title = "Moscow Journey" };
+                var tripAppointment = new TripAppointment() { Date = new DateTime(), TripDescription = tripDescription };
+                var schedule = new Schedule() { Title = "Tula", City = "Tula", Appointments = new List<TripAppointment>() { tripAppointment } };
+
+                context.TripDescriptions.Add(tripDescription);
+                context.TripAppointments.Add(tripAppointment);
+                context.Schedules.Add(schedule);
 
                 context.SaveChanges();
             }            
