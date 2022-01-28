@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using AdminService.SyncDataServices.Http;
 
 namespace AdminService {
     public class Startup {
@@ -26,11 +27,14 @@ namespace AdminService {
             services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
 
             services.AddScoped<IScheduleRepo, ScheduleRepo>();
+            services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AdminService", Version = "v1" });
             });
+
+            Console.WriteLine($"Command Service endpoint: {Configuration["CommandsService"]}");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
