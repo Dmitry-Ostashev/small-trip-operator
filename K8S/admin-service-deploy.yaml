@@ -15,3 +15,18 @@ spec:
       containers:
         - name: adminservice
           image: ostashev/smalltripoperator-adminservice:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: adminservice
+  ports:
+  - name: adminservice
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    
